@@ -102,9 +102,9 @@ async def pars():
         cnt_keywords = 1
         logger.debug(f"Начинаю цикличный перебор по ключам. Количество ключей - {len(lst_keyword)}")
         for row in lst_keyword:
-            logger.debug(f"Ключ №{cnt_keywords} - {row[0]}")
+            logger.info(f"Ключ №{cnt_keywords} - {row[0]}")
             current_quantity_keys = await som.get_cnt_keyword()
-            logger.debug(f"Текущее количество ключей - {current_quantity_keys}")
+            logger.info(f"Текущее количество ключей - {current_quantity_keys}")
 
             if quant_keys != current_quantity_keys[0][0]:
                 logger.warning(f'Количество ключей в БД было изменено. Ключей при начале цикла - {quant_keys}, сейчаc - {current_quantity_keys[0][0]} Сбрасываю цикл.')
@@ -122,7 +122,7 @@ async def pars():
             connector_error_cnt = 0
             get_prox_err = 0
             for count_page in range(1, 5):
-                logger.debug(f"Готовлю get-запрос к {count_page}-й странице ключа {KEY_WORD}")
+                logger.info(f"Готовлю get-запрос к {count_page}-й странице ключа {KEY_WORD}")
                 try:
                     rand_proxy = await random_proxy()
                 except Exception as e:
@@ -132,25 +132,30 @@ async def pars():
                 constructor_url = (f"https://search.wb.ru/exactmatch/ru/common/v5/search?ab_testing=false&appType=1&"
                                     f"curr=rub&dest=-1257786&page={count_page}&query={KEY_WORD}"
                                     f"&resultset=catalog&sort=popular&spp=30&suppressSpellcheck=false")
-                try:
-                    response = await wb_fetch_data(constructor_url, rand_proxy['http'])
+                for attempt in range(3):
                     try:
-                        data_all, status = response[0], response[1]
+                        response = await wb_fetch_data(constructor_url, rand_proxy['http'])
+                        try:
+                            data_all, status = response[0], response[1]
+                        except Exception as e:
+                            logger.info(f'В строке data_all, status = response[0], response[1] произошла ошибка \n{e}'
+                                        f'\nПовторяю попытку {attempt} из 3')
+                            continue
+
+                        except ClientConnectorError:
+                            connector_error_cnt += 1
+                            if connector_error_cnt < 100:
+                                logger.error(f"Ошибка подключения к хосту. Прокси - {rand_proxy['http']}")
+                            continue
+                    except ConnectionResetError:
+                        logger.warning(f'Удалённый сервер принудительно закрыл соединение. Запрос будет повторен.')
+                        continue
                     except Exception as e:
-                        logger.info(f'В строке data_all = data_all.json() произошла ошибка \n{e}')
+                        logger.error(f'Неизвестная ошибка "{e}" произошла при запросе')
+                        if type(e) == 'ProxyError':
+                            logger.warning(f"ProxyError: {rand_proxy['http']}")
                         continue
 
-                    except ClientConnectorError:
-                        connector_error_cnt += 1
-                        if connector_error_cnt < 100:
-                            logger.error(f"Ошибка подключения к хосту. Прокси - {rand_proxy['http']}")
-                        continue
-                except Exception as e:
-                    logger.error(f'Ошибка "{e}" произошла при запросе')
-                    if type(e) == 'ProxyError':
-                        logger.warning(f"ProxyError: {rand_proxy['http']}")
-                    continue
-                else:
                     pause = random.uniform(3, 8)
                     await asyncio.sleep(pause)
                     if status != 200:
@@ -161,10 +166,10 @@ async def pars():
                     try:
                         if data_all.get("data"):
                             products_list = data_all["data"]["products"]
-                            logger.debug(f'Получено {len(products_list)} товаров')
+                            logger.info(f'Получено {len(products_list)} товаров')
                         else:
-                            logger.debug(f'Не получил товары по даной странице')
-                            
+                            logger.info(f'Не получил товары по данной странице')
+
                     except Exception as e:
                         logger.critical(f"Произошла ошибка {e} при попытке достать данные из словаря. \n"
                                         f"{datetime.datetime.now().ctime()} \nСтраница:{count_page}, Ключ:{KEY_WORD}, "
@@ -216,7 +221,7 @@ async def pars():
 
                                 cnt_end_subs = 0
                                 cnt_active_subs = 0
-                                logger.debug(f'Начинаю итерироваться по списку пользователей, '
+                                logger.info(f'Начинаю итерироваться по списку пользователей, '
                                              f'в поисках тех у кого активна подписка')
                                 for user in user_list:
                                     if user[0] in users_ignoring_bot:
@@ -259,7 +264,7 @@ async def pars():
                                             try:
                                                 await asyncio.sleep(2)
                                                 await bot.send_photo(chat_id=user_id, caption=text, photo=url_photo_lst[0])
-                                                logger.info(f"Отправлено!")
+                                                logger.debug(f"Отправлено!")
                                                 # await bot.send_message(chat_id=user_id, text=text)
                                                 count_active_users += 1
                                             except Exception as ex:
