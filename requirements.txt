@@ -1,0 +1,8 @@
+loguru
+notifiers
+python-dotenv
+setuptools
+aiogram
+pytz
+aiosqlite
+pandas
