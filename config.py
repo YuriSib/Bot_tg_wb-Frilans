@@ -8,4 +8,5 @@ PAUSE_END = 900
 pay_14 = 99
 pay_30 = 99
 pay_90 = 399
+# API_KEY = 'd294971f4d-cc8c7cb03e-026fe32c60'
 API_KEY = "7d0beb75a7-0acd49c3cc-795df289aa"

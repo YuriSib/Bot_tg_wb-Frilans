@@ -1,6 +1,6 @@
 import os
 from loguru import logger
-from notifiers.logging import NotificationHandler
+# from notifiers.logging import NotificationHandler
 from dotenv import load_dotenv
 from config import TOKEN, LOG_GROUP
 

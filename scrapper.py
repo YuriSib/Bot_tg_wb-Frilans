@@ -13,6 +13,8 @@ from aiogram import Bot
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 from aiohttp import ClientConnectorError
+import requests
+from concurrent.futures import ThreadPoolExecutor
 
 import utils
 from sqliteormmagic import SQLiteDB
@@ -22,28 +24,14 @@ from config import TOKEN, ADMIN_LIST, LOG_GROUP, PAUSE_START, PAUSE_END, pay_14,
 from logger import logger
 
 
+executor = ThreadPoolExecutor()
+
 """
     1. После обновления ключей перезапускать цикл и начинать итерацию с первого ключа.
     2. Оптимизировать отправление сообщений пользователям, убрать лишние действия с БД.
     3. Сделать связь между ключами и товарами, при обновлении ключей, удалать товары, которые остались без связи с ключем.
 """
 
-
-headers = {
-    'Accept': '*/*',
-    'Accept-Language': 'ru,en;q=0.9',
-    'Connection': 'keep-alive',
-    'Origin': 'https://www.wildberries.ru',
-    'Referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80%20%D0%B1%D0%B5%D0%BD%D0%B7%D0%B8%D0%BD%D0%BE%D0%B2%D1%8B%D0%B9',
-    'Sec-Fetch-Dest': 'empty',
-    'Sec-Fetch-Mode': 'cors',
-    'Sec-Fetch-Site': 'cross-site',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 YaBrowser/23.11.0.0 Safari/537.36',
-    'sec-ch-ua': '"Chromium";v="118", "YaBrowser";v="23.11", "Not=A?Brand";v="99", "Yowser";v="2.5"',
-    'sec-ch-ua-mobile': '?0',
-    'sec-ch-ua-platform': '"Windows"',
-    'x-queryid': 'qid166042518169737901020240607174105',
-}
 
 db_users = SQLiteDB('users.db')
 bot = Bot(TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
@@ -55,39 +43,70 @@ async def fetch_data(url):
             return await response.json(), response.status
 
 
-async def wb_fetch_data(url, proxy):
-    async with aiohttp.ClientSession(connector=aiohttp.TCPConnector(limit=10)) as session:
-        async with session.get(url=url, proxy=proxy, headers=headers) as response:
-            if response.status == 200:
-                response_data = await response.text()
+def fetch_data_01(url, proxy, headers, params, cookies):
+    return requests.get(url, params=params, cookies=cookies, headers=headers, proxies=proxy)
 
-                return json.loads(response_data), response.status
+
+async def async_fetch_data(url, proxy, query, page):
+    cookies = {
+        'x_wbaas_token': '1.1000.7a68aba12f83430ba7d90232a69ac049.MHwxNjguMTk2LjIzNy4xODJ8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NjM3NDExODZ8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzYzMTM2Mzg2.MEUCIF2E+AFakALQI8OJJs0UNQwgAbB/lyKIFRfHqWLlQTZeAiEAvj7H/UfhVmrYLAtxyu+Shlfw1jxQITvgjX+qEarpxI0=',
+        '_wbauid': '2451425061762531645',
+        '_cp': '1',
+    }
+    headers = {
+        'accept': '*/*',
+        'accept-language': 'ru,en;q=0.9',
+        'deviceid': 'site_bf631b5e4bff4512995738aa60ca1914',
+        'priority': 'u=1, i',
+        'referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D1%81%D0%B2%D0%B8%D1%82%D0%B5%D1%80%20%D0%B6%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BE%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%B9%D0%B7',
+        'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "YaBrowser";v="25.8", "Yowser";v="2.5"',
+        'sec-ch-ua-mobile': '?0',
+        'sec-ch-ua-platform': '"Linux"',
+        'sec-fetch-dest': 'empty',
+        'sec-fetch-mode': 'cors',
+        'sec-fetch-site': 'same-origin',
+        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 YaBrowser/25.8.0.0 Safari/537.36',
+        'x-pow': '2|site_bf631b5e4bff4512995738aa60ca1914|1762584005|6,8,1,6a68bb000000000,4574d00c-7cbf-438c-bbb7-0953dbc38f77,2090ff49-120a-4a68-825b-d06777137b0f,1762584064,1,8wEtv0Uvv8XVXCtcCFsBmgmlnESOZo8RCbgSBbMn32A=,f432eb33ed73dc666aeb2a8b7439a2d5a9b79bd1eb2d65911407d725d4e29c901599595b56c8475c0f872e29eb084ec55b709fdf2cf890b151dcdf09705f6a6d|21',
+        'x-queryid': 'qid245142506176253164520251108064014',
+        'x-requested-with': 'XMLHttpRequest',
+        'x-spa-version': '13.12.0',
+        'x-userid': '0',
+    }
+    params = {
+        'ab_testing': [
+            'false',
+            'false',
+        ],
+        'appType': '1',
+        'curr': 'rub',
+        'dest': '-1257786',
+        'hide_dtype': '11',
+        'inheritFilters': 'false',
+        'lang': 'ru',
+        'page': str(page),
+        'query': query,
+        'resultset': 'catalog',
+        'sort': 'popular',
+        'spp': '30',
+        'suppressSpellcheck': 'false',
+    }
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(executor, fetch_data_01, url, proxy, headers, params, cookies)
 
 
 async def random_proxy():
     response = await fetch_data(f"https://api.proxy6.net/{API_KEY}/getproxy")
-    print(response[1])
     if response[1] != 200:
         return response[1]
     proxy_list = []
     for item in response[0]['list'].values():
-        if item["ip"] == '194.67.216.135':
-            continue
         proxy_list.append({
             'server': f'{item["ip"]}:{item["port"]}',
             'username': item['user'],
             'password': item['pass']
         })
 
-    rand_proxy = random.choice(proxy_list)
-    proxy = f"http://{rand_proxy['username']}:{rand_proxy['password']}@{rand_proxy['server']}"
-
-    proxies = {
-        'http': proxy,
-        'https': proxy
-    }
-
-    return proxies
+    return random.choice(proxy_list)
 
 
 async def pars():
@@ -129,31 +148,28 @@ async def pars():
                     if get_prox_err < 100:
                             logger.error(f"Слишком много попыток получить прокси. Ошибка: {e}")
                     continue
-                constructor_url = (f"https://search.wb.ru/exactmatch/ru/common/v5/search?ab_testing=false&appType=1&"
-                                    f"curr=rub&dest=-1257786&page={count_page}&query={KEY_WORD}"
-                                    f"&resultset=catalog&sort=popular&spp=30&suppressSpellcheck=false")
+
+                url = "https://www.wildberries.ru/__internal/u-search/exactmatch/ru/common/v18/search"
                 for attempt in range(3):
                     try:
-                        response = await wb_fetch_data(constructor_url, rand_proxy['http'])
-                        try:
-                            data_all, status = response[0], response[1]
-                        except Exception as e:
-                            logger.info(f'В строке data_all, status = response[0], response[1] произошла ошибка \n{e}'
-                                        f'\nПовторяю попытку {attempt} из 3')
-                            continue
-
-                        except ClientConnectorError:
-                            connector_error_cnt += 1
-                            if connector_error_cnt < 100:
-                                logger.error(f"Ошибка подключения к хосту. Прокси - {rand_proxy['http']}")
-                            continue
+                        response = await async_fetch_data(url, rand_proxy, query=KEY_WORD, page=count_page)
+                        data_all, status = response.json(), response.status_code
                     except ConnectionResetError:
                         logger.warning(f'Удалённый сервер принудительно закрыл соединение. Запрос будет повторен.')
+                        await asyncio.sleep(3)
+                        continue
+                    except ClientConnectorError:
+                        connector_error_cnt += 1
+                        if connector_error_cnt < 100:
+                            logger.error(f"Ошибка подключения к хосту. Прокси - {rand_proxy['http']}")
                         continue
                     except Exception as e:
-                        logger.error(f'Неизвестная ошибка "{e}" произошла при запросе')
-                        if type(e) == 'ProxyError':
-                            logger.warning(f"ProxyError: {rand_proxy['http']}")
+                        if "'NoneType' object is not subscriptable" in str(e):
+                            logger.info(f'None при распаковке ответа. url - {url}'
+                                        f'\nПовторяю попытку {attempt} из 3')
+                        else:
+                            logger.info(f'Неизвестная ошибка - {e}')
+                        await asyncio.sleep(3)
                         continue
 
                     pause = random.uniform(3, 8)
@@ -164,8 +180,8 @@ async def pars():
                         await asyncio.sleep(60)
                         continue
                     try:
-                        if data_all.get("data"):
-                            products_list = data_all["data"]["products"]
+                        if data_all.get("products"):
+                            products_list = data_all["products"]
                             logger.info(f'Получено {len(products_list)} товаров')
                         else:
                             logger.info(f'Не получил товары по данной странице')
