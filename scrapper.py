@@ -49,16 +49,16 @@ def fetch_data_01(url, proxy, headers, params, cookies):
 
 async def async_fetch_data(url, proxy, query, page):
     cookies = {
-        'x_wbaas_token': '1.1000.7a68aba12f83430ba7d90232a69ac049.MHwxNjguMTk2LjIzNy4xODJ8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NjM3NDExODZ8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzYzMTM2Mzg2.MEUCIF2E+AFakALQI8OJJs0UNQwgAbB/lyKIFRfHqWLlQTZeAiEAvj7H/UfhVmrYLAtxyu+Shlfw1jxQITvgjX+qEarpxI0=',
         '_wbauid': '2451425061762531645',
         '_cp': '1',
+        'x_wbaas_token': '1.1000.40fb3ff31a7e4d41839c61bf50715be7.MHw5NC4yMzAuMzUuNTN8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NjUwMjMzMDN8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzY0NDE4NTAzfDE=.MEYCIQC03F/Vrly5R58N/JVmPp8kuYcQWkYLJ8ewbQ5O4Hj7TwIhAMEk6fZyJ65oq2U9t4hQl+QeXrs5wp9mRF05Ivu1FGN6',
     }
     headers = {
         'accept': '*/*',
         'accept-language': 'ru,en;q=0.9',
         'deviceid': 'site_bf631b5e4bff4512995738aa60ca1914',
         'priority': 'u=1, i',
-        'referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D1%81%D0%B2%D0%B8%D1%82%D0%B5%D1%80%20%D0%B6%D0%B5%D0%BD%D1%81%D0%BA%D0%B8%D0%B9%20%D0%BE%D0%B2%D0%B5%D1%80%D1%81%D0%B0%D0%B9%D0%B7',
+        'referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D0%A0%D0%A3%D0%B1%D0%B0%D1%88%D0%BA%D0%B0',
         'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "YaBrowser";v="25.8", "Yowser";v="2.5"',
         'sec-ch-ua-mobile': '?0',
         'sec-ch-ua-platform': '"Linux"',
@@ -66,11 +66,11 @@ async def async_fetch_data(url, proxy, query, page):
         'sec-fetch-mode': 'cors',
         'sec-fetch-site': 'same-origin',
         'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 YaBrowser/25.8.0.0 Safari/537.36',
-        'x-pow': '2|site_bf631b5e4bff4512995738aa60ca1914|1762584005|6,8,1,6a68bb000000000,4574d00c-7cbf-438c-bbb7-0953dbc38f77,2090ff49-120a-4a68-825b-d06777137b0f,1762584064,1,8wEtv0Uvv8XVXCtcCFsBmgmlnESOZo8RCbgSBbMn32A=,f432eb33ed73dc666aeb2a8b7439a2d5a9b79bd1eb2d65911407d725d4e29c901599595b56c8475c0f872e29eb084ec55b709fdf2cf890b151dcdf09705f6a6d|21',
-        'x-queryid': 'qid245142506176253164520251108064014',
+        'x-queryid': 'qid245142506176253164520251122160607',
         'x-requested-with': 'XMLHttpRequest',
-        'x-spa-version': '13.12.0',
+        'x-spa-version': '13.14.1',
         'x-userid': '0',
+        # 'cookie': '_wbauid=2451425061762531645; _cp=1; x_wbaas_token=1.1000.40fb3ff31a7e4d41839c61bf50715be7.MHw5NC4yMzAuMzUuNTN8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NjUwMjMzMDN8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzY0NDE4NTAzfDE=.MEYCIQC03F/Vrly5R58N/JVmPp8kuYcQWkYLJ8ewbQ5O4Hj7TwIhAMEk6fZyJ65oq2U9t4hQl+QeXrs5wp9mRF05Ivu1FGN6',
     }
     params = {
         'ab_testing': [
@@ -79,7 +79,7 @@ async def async_fetch_data(url, proxy, query, page):
         ],
         'appType': '1',
         'curr': 'rub',
-        'dest': '-1257786',
+        'dest': '-1255987',
         'hide_dtype': '11',
         'inheritFilters': 'false',
         'lang': 'ru',
@@ -95,7 +95,7 @@ async def async_fetch_data(url, proxy, query, page):
 
 
 async def random_proxy():
-    response = await fetch_data(f"https://api.proxy6.net/{API_KEY}/getproxy")
+    response = await fetch_data(f"https://px6.me/api/{API_KEY}/getproxy")
     if response[1] != 200:
         return response[1]
     proxy_list = []
@@ -153,7 +153,12 @@ async def pars():
                 for attempt in range(3):
                     try:
                         response = await async_fetch_data(url, rand_proxy, query=KEY_WORD, page=count_page)
-                        data_all, status = response.json(), response.status_code
+                        status = response.status_code
+                        if status == 200:
+                            data_all = response.json()
+                        else:
+                            logger.info("Статус != 200")
+                            continue
                     except ConnectionResetError:
                         logger.warning(f'Удалённый сервер принудительно закрыл соединение. Запрос будет повторен.')
                         await asyncio.sleep(3)
@@ -188,8 +193,7 @@ async def pars():
 
                     except Exception as e:
                         logger.critical(f"Произошла ошибка {e} при попытке достать данные из словаря. \n"
-                                        f"{datetime.datetime.now().ctime()} \nСтраница:{count_page}, Ключ:{KEY_WORD}, "
-                                        f"Прокси{rand_proxy['http']} \n")
+                                        f"{datetime.datetime.now().ctime()} \nСтраница:{count_page}, Ключ:{KEY_WORD}")
                         continue
                     logger.debug(f'Начинаю итерироваться по полученным товарам.')
                     for product in products_list:
@@ -305,6 +309,5 @@ async def pars():
 
 
 if __name__ == "__main__":
-    pass
+    asyncio.run(pars())
 
-    

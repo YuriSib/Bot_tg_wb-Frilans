@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from config import TOKEN, LOG_GROUP
 
 
-path_to_logs = fr"/bot/logs"
+path_to_logs = fr"/home/user/PycharmProjects/TG_bot/logs"
 # path_to_logs = rf"C:\Users\User\PycharmProjects\BIK_monitoring\logs"
 
 logger.add(f'{path_to_logs}/log.log', rotation='100 MB', retention=5, level="DEBUG")
@@ -22,8 +22,8 @@ params = {
     "chat_id": LOG_GROUP,
 }
 
-tg_handler = NotificationHandler(provider='telegram', defaults=params)
-logger.add(tg_handler, level='WARNING')
+# tg_handler = NotificationHandler(provider='telegram', defaults=params)
+# logger.add(tg_handler, level='WARNING')
 
 if __name__ == "__main__":
     logger.debug("Уровень Debug")
