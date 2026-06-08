@@ -17,6 +17,7 @@ media/
 static/
 
 # 5. Файлы конфигурации и логов
+config.py
 *.log
 local_settings.py
 .env

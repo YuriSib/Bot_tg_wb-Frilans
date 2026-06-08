@@ -49,30 +49,35 @@ def fetch_data_01(url, proxy, headers, params, cookies):
 
 async def async_fetch_data(url, proxy, query, page):
     cookies = {
-        '_wbauid': '2451425061762531645',
-        '_cp': '1',
-        'x_wbaas_token': '1.1000.562e9ba4c5b245c499850f3f214a7af5.MHw5NC4yMzAuMzUuNTN8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3Njc1OTc0NzB8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzY2OTkyNjcwfDE=.MEQCIAoDD7RRKvOwUeIhvY+GRjTjxeLzq5ZCsIuqY03HtZ5JAiAB2vrF8ppEeCbf1w07EpyRqHyBH83ahNqc0KE4c2AdSg==',
-    }
+    '_wbauid': '2451425061762531645',
+    'wbx-validation-key': 'd3057d4d-0d12-406b-aa8a-e00a427a2329',
+    'feedbacks_link_accepted': '1',
+    'x_wbaas_token': '1.1000.e79f25e5ae0348e5a33c2e72080f8fb9.MHw5NS43MS4zMi4xMTd8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NzU1MDEyNzR8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzc0ODk2NDc0fDE=.MEUCIQD1pBnHojrrvlVzIxmeywCnRqvA1ssr2UxBFmd0E5tolgIgBRYOAYoAr3Q/KKrd1I44Q+H9zzyBtaWmu+7ZbYYLZgA=',
+    'routeb': '1774291677.186.64.312767|74ada48fd20445fe87ec57de1fe798ac',
+}
 
     headers = {
-        'accept': '*/*',
-        'accept-language': 'ru,en;q=0.9',
-        'deviceid': 'site_bf631b5e4bff4512995738aa60ca1914',
-        'priority': 'u=1, i',
-        'referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D0%BA%D1%80%D0%BE%D1%81%D1%81%D0%BE%D0%B2%D0%BA%D0%B8%20%D0%BC%D1%83%D0%B6%D1%81%D0%BA%D0%B8%D0%B5%20%D0%B7%D0%B8%D0%BC%D0%BD%D0%B8%D0%B5',
-        'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "YaBrowser";v="25.8", "Yowser";v="2.5"',
-        'sec-ch-ua-mobile': '?0',
-        'sec-ch-ua-platform': '"Linux"',
-        'sec-fetch-dest': 'empty',
-        'sec-fetch-mode': 'cors',
-        'sec-fetch-site': 'same-origin',
-        'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 YaBrowser/25.8.0.0 Safari/537.36',
-        'x-queryid': 'qid245142506176253164520251222071923',
-        'x-requested-with': 'XMLHttpRequest',
-        'x-spa-version': '13.17.4',
-        'x-userid': '0',
-        # 'cookie': '_wbauid=2451425061762531645; _cp=1; x_wbaas_token=1.1000.562e9ba4c5b245c499850f3f214a7af5.MHw5NC4yMzAuMzUuNTN8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3Njc1OTc0NzB8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzY2OTkyNjcwfDE=.MEQCIAoDD7RRKvOwUeIhvY+GRjTjxeLzq5ZCsIuqY03HtZ5JAiAB2vrF8ppEeCbf1w07EpyRqHyBH83ahNqc0KE4c2AdSg==',
-    }
+    'accept': '*/*',
+    'accept-language': 'ru,en;q=0.9',
+    'authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NzQyOTE2NzYsInVzZXIiOiIzNzU0MDUyMCIsInNoYXJkX2tleSI6IjciLCJjbGllbnRfaWQiOiJ3YiIsInNlc3Npb25faWQiOiIzMDRkMDhlNGJlZTU0NDdjYmJiMjczNmE1MzNkOGQzNCIsInBob25lIjoiOEhjNVAvZDkxbVZ2MG1Nenhqdng5Zz09IiwidmFsaWRhdGlvbl9rZXkiOiI3MjUyOGY5MTExZjZhYjk5YTcxYTlkOTc0MzhlMjgxOWFiMTM2YjNmNzQzYTk3OTM5ODUzMTMxYThkZWRiZjlhIiwidXNlcl9yZWdpc3RyYXRpb25fZHQiOjE2NzExMDk1OTgsInZlcnNpb24iOjJ9.GAYgR5gU2wuEJIURl_A3rWl7VAIyFNHL-es6anMDjXs6H94Pi9kua8NzxEWg0WMYT8z31lvKGMMgVGBjWEq83VgQWwse-S3RvpM0C_PHyvmbAMZD183vm8jP1JY2B5bk81Qa8XG_ZjjOV3teepIceag5x0OxnVL5tisTWDDeIvt9ZQXe0Aid0n2wJuLdP3JyHpvqavWTt167R-0Eo4TKzgPiP2C5QcPgE9LFeP5yuKN0Livy-0_H1FWJ6pcqb78vFcLKS9CK_awScek1fU7iW9QR04NU0P7i_Z62QzHuxPvD1kgPtHUr72WEct6VstkBxyd6e0Ie45Xc3olFObZpwg',
+    'deviceid': 'site_bf631b5e4bff4512995738aa60ca1914',
+    'priority': 'u=1, i',
+    'referer': 'https://www.wildberries.ru/catalog/0/search.aspx?search=%D1%8D%D0%BB%D0%B5%D0%BA%D1%82%D1%80%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B0%D1%8F%20%D1%82%D1%83%D1%80%D0%BA%D0%B0',
+    'sec-ch-ua': '"Not)A;Brand";v="8", "Chromium";v="138", "YaBrowser";v="25.8", "Yowser";v="2.5"',
+    'sec-ch-ua-mobile': '?0',
+    'sec-ch-ua-platform': '"Linux"',
+    'sec-fetch-dest': 'empty',
+    'sec-fetch-mode': 'cors',
+    'sec-fetch-site': 'same-origin',
+    'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 YaBrowser/25.8.0.0 Safari/537.36',
+    'x-queryid': 'qid245142506176253164520260323184908',
+    'x-requested-with': 'XMLHttpRequest',
+    'x-spa-version': '14.2.4',
+    'x-userdata': 'AQYAAQIAAQIBAAIEAAMDAAoCAAEAEqgDrYgjiaSwqtCp8aeJKTKnGqBHpMgxra5hK-Ao4amnLfGs26qrracfAaOirEenlquitp6j1B71IWMqnizPquml0qvgoNUgkScOrZWqVCKeom2t0qIKJDqnGjA6qYKjGqgVMz-oyBTIqvWt8axspp6q9ad9pWOnu64QpVGqL6SLKIunryMBJtAwl6nlFOGoTa55Lfiswq_UKZuuxKpUrKohjq1dLLYykrJILHKtabM_JE0sDyl8JW-yLyarpBupOKxNroajfbBNptyqxKmhoRMrGqqGKDQe6a2OjPQqKSXrnKMVOCfUKNufxzByJycpabcanKqkkSMnq6KtEylKrHgACi4fqb4rBJ4Fo8akAq53oReiox7HJ3cnq6VVKHCmQij0plQpMi1VLAuuS6yBJaQr8rAyHxYff7A3ra2ZtqIoL1ytvqMnIW-qx6RnLdkwE6WSqzCtpKIorC4sOzAYrdCnmqRwq2WdkqjZKP2pOqnQKl2qVClvKCEfkacfJx8v-y2trx-m4RAhnTKwC6DiMLarUyjZIA-jvacwqK0kISC2nOIpm6xwKNEs0aVeK9etXqnzKjqnMKxErEQtQyJCKRenSzmSromtvieRpPQhx6aAMC6hvi9_Kjoi-yMfr7QmvgOGoDKw0aleoAYjfzHqKTIrBKa-La2fZS2KLLabmq4FKJwxcgFIBbT2OeijNi2nNY0A',
+    'x-userid': '37540520',
+    # 'cookie': '_wbauid=2451425061762531645; wbx-validation-key=d3057d4d-0d12-406b-aa8a-e00a427a2329; feedbacks_link_accepted=1; x_wbaas_token=1.1000.e79f25e5ae0348e5a33c2e72080f8fb9.MHw5NS43MS4zMi4xMTd8TW96aWxsYS81LjAgKFgxMTsgTGludXggeDg2XzY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvMTM4LjAuMC4wIFlhQnJvd3Nlci8yNS44LjAuMCBTYWZhcmkvNTM3LjM2fDE3NzU1MDEyNzR8cmV1c2FibGV8MnxleUpvWVhOb0lqb2lJbjA9fDB8M3wxNzc0ODk2NDc0fDE=.MEUCIQD1pBnHojrrvlVzIxmeywCnRqvA1ssr2UxBFmd0E5tolgIgBRYOAYoAr3Q/KKrd1I44Q+H9zzyBtaWmu+7ZbYYLZgA=; routeb=1774291677.186.64.312767|74ada48fd20445fe87ec57de1fe798ac',
+}
+
     params = {
         'ab_testing': [
             'false',
